@@ -4,11 +4,6 @@
 
 void RunApp(AppState *app) {
 
-  Polygon triangle = BuildPolygon(3);
-
-  float theta = 0.0;
-  float rate = 0.0;
-
   // Drawig should be in syc with monitor frame rate.
   while (app->running == true) {
     HandleEvents(app);
@@ -16,17 +11,9 @@ void RunApp(AppState *app) {
     SDL_SetRenderDrawColor(app->rndr, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(app->rndr);
 
-    SDL_SetRenderTarget(app->rndr, NULL);
-    DrawApp(app, triangle, theta);
+    UpdateApp(app);
 
-    theta += rate;
-    if (theta > 360.0) {
-      rate = -0.00001;
-    }
-    if (theta <= 0.0f) {
-      rate = 0.00001;
-    }
-
+    SDL_RenderTexture(app->rndr, app->txtr, NULL, NULL);
     SDL_RenderPresent(app->rndr);
   }
 }

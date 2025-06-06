@@ -5,7 +5,7 @@ pub fn build(b: *std.Build) !void {
         "main.c",
         "events.c",
         "setup.c",
-        "draw.c",
+        "update.c",
     };
 
     const exe = b.addExecutable(.{
