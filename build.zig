@@ -3,15 +3,11 @@ const std = @import("std");
 pub fn build(b: *std.Build) !void {
     const src_files: []const []const u8 = &.{
         "main.c",
-        "events.c",
-        "setup.c",
-        "update.c",
-        "rasterizer.c",
     };
 
     const exe = b.addExecutable(.{
-        .name = "Pichoo",
-        .target = b.graph.host,
+        .name = "urigin",
+        .target = b.graph.host, //Should be PSP or PS2
     });
 
     exe.addCSourceFiles(.{
