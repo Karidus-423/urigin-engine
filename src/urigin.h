@@ -8,4 +8,15 @@ typedef enum Window_Flags {
   RESIZABLE,
 } Window_Flags;
 
-void UpdateRenderer(SDL_Renderer *renderer, SDL_Texture *texture);
+typedef struct Display {
+  int w;
+  int h;
+} Display;
+
+typedef struct App_State {
+  SDL_Window *win;
+  SDL_Renderer *renderer;
+  SDL_Texture *texture;
+  SDL_Event *events;
+  Display display;
+} App_State;

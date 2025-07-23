@@ -3,6 +3,7 @@ const std = @import("std");
 pub fn build(b: *std.Build) !void {
     const src_files: []const []const u8 = &.{
         "main.c",
+        "events.c",
     };
 
     const exe = b.addExecutable(.{
