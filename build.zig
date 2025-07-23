@@ -4,6 +4,7 @@ pub fn build(b: *std.Build) !void {
     const src_files: []const []const u8 = &.{
         "main.c",
         "events.c",
+        "renderer.c",
     };
 
     const exe = b.addExecutable(.{

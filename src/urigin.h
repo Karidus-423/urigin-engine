@@ -20,3 +20,5 @@ typedef struct App_State {
   SDL_Event *events;
   Display display;
 } App_State;
+
+void UpdateRenderer(App_State *state);
