@@ -1,4 +1,5 @@
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_gpu.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 
@@ -18,7 +19,9 @@ typedef struct App_State {
   SDL_Renderer *renderer;
   SDL_Texture *texture;
   SDL_Event *events;
+  SDL_GPUDevice *gpu;
   Display display;
 } App_State;
 
 void UpdateRenderer(App_State *state);
+Display GetWindowSize(Window_Flags flag);

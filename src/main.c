@@ -1,4 +1,5 @@
 #include <SDL3/SDL_events.h>
+#include <SDL3/SDL_gpu.h>
 #include <SDL3/SDL_properties.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
@@ -18,36 +19,13 @@
 #define MAX_PIXELS_PER_SECOND 60
 
 #define APP_NAME "Urigin-Engine"
-#define APP_VER "0.0.0"
+#define APP_VER "0.0.1"
 #define APP_ID "com.urigin.engine"
 
 static SDL_FPoint points[NUM_POINTS];
 static float point_speeds[NUM_POINTS];
 
 static Uint64 last_time = 0;
-
-Display GetWindowSize(Window_Flags flag) {
-  Display win = {.w = 0, .h = 0};
-  SDL_DisplayID id = SDL_GetPrimaryDisplay();
-  const SDL_DisplayMode *info = SDL_GetDesktopDisplayMode(id);
-  float percent = 0.0;
-
-  switch (flag) {
-  case FULLSCREEN:
-    win.h = info->h;
-    win.w = info->w;
-    break;
-  case ASPECT_RATIO:
-    break;
-  case RESIZABLE:
-    percent = 0.4;
-    win.h = info->h * percent;
-    win.w = info->w * percent;
-    break;
-  }
-
-  return win;
-}
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
   SDL_SetAppMetadata(APP_NAME, APP_VER, APP_ID);
@@ -76,9 +54,18 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
   state.texture =
       SDL_CreateTexture(state.renderer, SDL_PIXELFORMAT_RGBA8888,
                         SDL_TEXTUREACCESS_STREAMING, display.h, display.w);
-  if (!state.texture) {
+  if (state.texture == NULL) {
     SDL_Log("Couldn't create texture %s", SDL_GetError());
     return SDL_APP_FAILURE;
+  }
+
+  state.gpu = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_SPIRV, false, NULL);
+  if (state.gpu == NULL) {
+    SDL_Log("Couldn't create gpu device: %s", SDL_GetError());
+  }
+
+  if (!SDL_ClaimWindowForGPUDevice(state.gpu, state.win)) {
+    SDL_Log("Window couldn't claim gpu: %s", SDL_GetError());
   }
 
   // SDL gives us an addres void** for use to use in their other functions.

@@ -5,7 +5,6 @@
 void UpdateRenderer(App_State *state) {
   SDL_Renderer *r = state->renderer;
   SDL_Texture *t = state->texture;
-  Display d = state->display;
   // Clear renderer------------------------------------------------------------
   SDL_SetRenderDrawColor(r, 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderClear(r);
